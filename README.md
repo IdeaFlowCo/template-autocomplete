@@ -46,7 +46,7 @@ An "autocompleted entry" should be a different color text and it should not be e
 
 ## Share
 
-Share your code on Github with `baptistemanson`. You can also send us a zip archive with your sources if it's more convenient for you.
+Share your code on Github with `taylormitchell`. You can also send us a zip archive with your sources if it's more convenient for you.
 
 ## Deploy
 
