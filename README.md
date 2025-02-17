@@ -1,63 +1,50 @@
-# Ideaflow Technical JS take home
+# React + TypeScript + Vite
 
-Thanks for your interest in Ideaflow!
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-We will evaluate your code quality, as well as the number of bugs or limitations of your implementation.
-We expect you to implement the specs from scratch with Draft.js and not use a plugin.
-Current plugins all have limitations and bugs. We also want to evaluate your own coding skills.
-Please cite your sources if you decide to inspire yourself from existing code, which is totally fine with us.
+Currently, two official plugins are available:
 
-We tailored this exercise to take approximately 4h, but time may vary depending on how familiar you are with Draft.js.
-Some candidates took 2h, some others 8h.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Goals
+## Expanding the ESLint configuration
 
-- Build a text editor using Draft.js with autocomplete from this template
-- Share your source with us on Github or via an archive
-- Deploy your build online
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## The text editor
+- Configure the top-level `parserOptions` property like this:
 
-The editor should be capable of taking keyboard and mouse input
-to freely edit its content. Classic actions like copy and paste, cut, selections should all work as expected.
-The editor should also offer an autocomplete.
-
-### Autocomplete Process
-
-An autocomplete process should be started when the characters `<>` are typed.
-The “match string” is the continuous substring extending from the right of the `<>` to the caret. This substring must not contain \n.
-
-### List of Suggestions
-
-When the autocomplete process is ongoing, a list of suggestions should be displayed below the match string.
-Every suggestion displayed in the list should be a “match string” prefix. You can hardcode some suggestions.
-The suggestions should dynamically update in response to the user's input.
-One suggestion should be highlighted at all times.
-Pressing ‘up’ and ‘down’ arrow keys should highlight another suggestion.
-
-Pressing ‘enter’ or ‘tab’ will select the highlighted suggestion.
-After selecting a suggestion, the editor should display an "autocompleted entry" instead of the match string.
-The value of the autocompleted entry should be equal to the highlighted suggestion, or if no suggestion was present, the match string.
-Classic mouse interactions should also be allowed to select and highlight suggestions.
-
-### Autocompleted Entry
-
-An "autocompleted entry" should be a different color text and it should not be editable. It can be entirely removed with one ‘backspace’ key press.
-
-## Share
-
-Share your code on Github with `Hackinet`. You can also send us a zip archive with your sources if it's more convenient for you.
-
-## Deploy
-
-We recommend using Vercel https://vercel.com/guides/deploying-react-with-vercel-cra
-Feel free to use another provider if required.
-
-## Get started
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
-yarn
-yarn start
+
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
 ```
